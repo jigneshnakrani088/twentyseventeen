@@ -13,7 +13,10 @@
  * @param array $classes Classes for the body element.
  * @return array
  */
-function twentyseventeen_body_classes( $classes ) {
+function twentyseventeen_body_classes( $class ) {
+
+	$classes = array();
+
 	// Add class of group-blog to blogs with more than 1 published author.
 	if ( is_multi_author() ) {
 		$classes[] = 'group-blog';
@@ -56,6 +59,15 @@ function twentyseventeen_body_classes( $classes ) {
 	$twentyseventeen_header_top_text_2 = get_theme_mod( 'twentyseventeen_header_top_text_2' );
 	if ( '' !== $twentyseventeen_header_top_text_1 || '' !== $twentyseventeen_header_top_text_2 ) {
 		$classes[] = 'has-top-content';
+	}
+
+	$classes = array_map( 'esc_attr', $classes );
+
+	if ( ! empty( $class ) ) {
+		if ( ! is_array( $class ) ) {
+			$class = preg_split( '#\s+#', $class );
+		}
+		$classes = array_merge( $classes, $class );
 	}
 
 	return $classes;
